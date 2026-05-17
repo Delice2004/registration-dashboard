@@ -141,4 +141,36 @@ const themeToggle = document.getElementById("themeToggle");
 function saveToLocalStorage() {
   localStorage.setItem("events", JSON.stringify(events));
 }
+function updateStats() {
+  totalEvents.textContent = events.length;
+  totalRegistered.textContent = events.reduce((sum, event) => sum + event.registered, 0);
+  remainingSeats.textContent = events.reduce((sum, event) => sum + (event.seats - event.registered), 0);
+}
+
+function renderEvents(filteredEvents = events) {
+  eventContainer.innerHTML = "";
+
+  filteredEvents.forEach(event => {
+    const remaining = event.seats - event.registered;
+
+    const card = document.createElement("div");
+    card.className = "bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition";
+
+    card.innerHTML = `
+      <h4 class="text-xl font-bold text-indigo-700">${event.title}</h4>
+      <p class="text-gray-500 mb-2">${event.category}</p>
+
+      <div class="space-y-1 mb-4">
+        <p>Total Seats: <strong>${event.seats}</strong></p>
+        <p>Registered: <strong>${event.registered}</strong></p>
+        <p>Remaining: <strong>${remaining}</strong></p>
+      </div>
+
+      <div class="flex gap-3">
+        <button onclick="registerEvent(${event.id})"
+          class="flex-1 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600">
+          Register
+        </button>
+
+
 
