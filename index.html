@@ -122,3 +122,23 @@
   </div>
 </footer>
 
+<script>
+let events = JSON.parse(localStorage.getItem("events")) || [
+  { id: 1, title: "AI Bootcamp", category: "Technology", seats: 30, registered: 12 },
+  { id: 2, title: "Debate Competition", category: "Education", seats: 20, registered: 8 },
+  { id: 3, title: "Football Tournament", category: "Sports", seats: 40, registered: 25 }
+];
+
+const eventContainer = document.getElementById("eventContainer");
+const totalEvents = document.getElementById("totalEvents");
+const totalRegistered = document.getElementById("totalRegistered");
+const remainingSeats = document.getElementById("remainingSeats");
+const eventForm = document.getElementById("eventForm");
+const message = document.getElementById("message");
+const searchInput = document.getElementById("searchInput");
+const themeToggle = document.getElementById("themeToggle");
+
+function saveToLocalStorage() {
+  localStorage.setItem("events", JSON.stringify(events));
+}
+
