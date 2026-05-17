@@ -196,6 +196,72 @@ function registerEvent(id) {
     alert("No seats available.");
   }
 }
+function cancelRegistration(id) {
+  const event = events.find(e => e.id === id);
+
+  if (event.registered > 0) {
+    event.registered--;
+    saveToLocalStorage();
+    renderEvents();
+  }
+}
+
+eventForm.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const title = document.getElementById("title").value.trim();
+  const category = document.getElementById("category").value.trim();
+  const seats = parseInt(document.getElementById("seats").value);
+
+  if (!title || !category || isNaN(seats) || seats <= 0) {
+    message.textContent = "Please enter valid event details.";
+    return;
+  }
+
+  const newEvent = {
+    id: Date.now(),
+    title,
+    category,
+    seats,
+    registered: 0
+  };
+
+  events.push(newEvent);
+  saveToLocalStorage();
+  renderEvents();
+
+  eventForm.reset();
+  message.textContent = "";
+});
+
+searchInput.addEventListener("input", function() {
+  const searchTerm = this.value.toLowerCase();
+
+  const filtered = events.filter(event =>
+    event.title.toLowerCase().includes(searchTerm) ||
+    event.category.toLowerCase().includes(searchTerm)
+  );
+
+  renderEvents(filtered);
+});
+
+themeToggle.addEventListener("click", () => {
+  document.body.classList.toggle("bg-slate-900");
+  document.body.classList.toggle("text-white");
+  document.body.classList.toggle("bg-slate-100");
+
+  themeToggle.textContent =
+    document.body.classList.contains("bg-slate-900")
+      ? "Light Mode"
+      : "Dark Mode";
+});
+
+renderEvents();
+</script>
+
+</body>
+</html>
+
 
 
 
