@@ -171,6 +171,32 @@ function renderEvents(filteredEvents = events) {
           class="flex-1 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600">
           Register
         </button>
+        
+        <button onclick="cancelRegistration(${event.id})"
+          class="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600">
+          Cancel
+        </button>
+      </div>
+    `;
+
+    eventContainer.appendChild(card);
+  });
+
+  updateStats();
+}
+
+function registerEvent(id) {
+  const event = events.find(e => e.id === id);
+
+  if (event.registered < event.seats) {
+    event.registered++;
+    saveToLocalStorage();
+    renderEvents();
+  } else {
+    alert("No seats available.");
+  }
+}
+
 
 
 
